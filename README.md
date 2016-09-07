@@ -1,0 +1,2 @@
+# images_synchronization_switch
+两组长度不一致的图片进行图片切换
