@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	    body,
+	    p {
+	    	margin: 0;
+	    }
+		#box {
+			position: relative;
+			margin: 30px auto 0;
+			width: 871px;
+			height: 550px;
+			border: 5px solid rgba(0,0,0,.2);
+			border-radius: 5px;
+			box-shadow: 0 0 5px 0 #aaa;
+			background: url("img/1.gif") no-repeat;
+		}
+		#box input {
+			position: absolute;
+			top: 35px;
+			width: 100px;
+			height: 30px;
+			border: 2px solid #000;
+			border-radius: 4px;
+			color: #000;
+			cursor: pointer;
+		}
+		#btn1 {
+			left: 30px;
+		}
+		#btn2 {
+			left: 150px;
+		}
+
+		#box .div1 {
+			position: absolute;
+			left: 49px;
+			top: 112px;
+			width: 448px;
+			height: 245px;
+		}
+
+		#box .div2 {
+			position: absolute;
+			right: 66px;
+			top: 112px;
+			width: 248px;
+			height: 245px;
+		}
+
+		#box img {
+			cursor: pointer;
+		}
+
+		#box .div1 img {
+			width: 448px;
+			height: 245px;
+		}
+
+		#box .div2 img {
+			width: 248px;
+			height: 245px;
+		}
+
+
+		#box .title {
+			font-size: 14px;
+			font-weight: bold;
+			text-align: center;
+		}
+
+		#box .count {
+			display: block;
+			font-size: 12px;
+		}
+	</style>
+	<script>
+
+		/*
+			需求：( 1 )点击上一组，两组图片同步向上切换
+				  ( 2 )点击下一组，两组图片同步向下切换
+				  ( 3 )点击图片，只该图片所在组发生运动
+		*/
+
+		window.onload = function (){
+			var box = document.getElementById("box");
+		    var btn = box.getElementsByTagName("input");
+		    var iDiv1 = document.getElementsByClassName("div1")[0];
+		    var iDiv2 = document.getElementsByClassName("div2")[0];
+		    var imgs = box.getElementsByTagName("img");
+		    var pTitle = box.getElementsByTagName("p");
+		    var sCount = box.getElementsByTagName("span");
+		    var n = 0, m = 0;
+
+		    // 将相关的图片信息放到数组里
+		    var arrPic1 = ['img/11.gif','img/12.gif','img/13.gif','img/14.gif'];
+		    var arrPic2 = ['img/21.gif','img/22.gif','img/23.gif'];
+		    
+		    changeImg();
+
+		    // 封装一个统一进行处理的函数，两组图片和信息同步切换
+		    function changeImg(){
+		    	imgs[0].src = arrPic1[n];
+		    	imgs[1].src = arrPic2[m];
+		    	pTitle[0].innerHTML = "第一组第"+ (n+1) + "张";
+		    	pTitle[1].innerHTML = "第二组第"+ (m+1) + "张";
+		    	sCount[0].innerHTML = n+1 + "/" + arrPic1.length;
+		    	sCount[1].innerHTML = m+1 + "/" + arrPic2.length;
+		    }
+		    
+		    // 点击上一组的时候，同步向上切换
+		    btn[0].onclick = function (){
+		    	n--;
+		    	m--;
+		    	if( n < 0 ){
+		    		n = arrPic1.length - 1;
+		    	}
+		    	if( m < 0 ){
+		    		m = arrPic2.length - 1;
+		    	}
+		    	changeImg();  // 执行切换函数
+		    }
+
+		    // 点击下一组的时候，同步向下切换
+		    btn[1].onclick = function (){
+		    	n++;
+		    	m++;
+		    	if( n > arrPic1.length - 1 ){
+		    		n = 0;
+		    	}
+		    	if( m > arrPic2.length - 1 ){
+		    		m = 0;
+		    	}
+		    	changeImg();   // 执行切换函数
+		    }
+
+		    // 点击第一张，第一组图片切换
+		    imgs[0].onclick = function (){
+		    	n++;
+		    	if( n > arrPic1.length - 1 ){
+		    		n = 0;
+		    	}
+		    	imgs[0].src = arrPic1[n];
+		    	pTitle[0].innerHTML = "第一组第"+ (n+1) + "张";
+		    	sCount[0].innerHTML = n+1 + "/" + arrPic1.length;
+		    }
+
+		    // 点击第二张，第二张图片切换
+		    imgs[1].onclick = function (){
+		    	m++;
+		    	if( m > arrPic2.length - 1 ){
+		    		m = 0;
+		    	}
+		    	imgs[1].src = arrPic2[m];
+		    	pTitle[1].innerHTML = "第二组第"+ (m+1) + "张";
+		    	sCount[1].innerHTML = m+1 + "/" + arrPic2.length;
+		    }
+
+		}
+	</script>
+</head>
+<body>
+	<div id="box">
+		<input type="button" id="btn1" value="上一组" />
+		<input type="button" id="btn2" value="下一组" />
+		<div class="div1">
+			<img src="img/11.gif" alt="">
+			<p class="title"></p>
+			<span class="count"></span>
+		</div>
+		<div class="div2">
+			<img src="img/21.gif" alt="">
+			<p class="title"></p>
+			<span class="count"></span>
+		</div>
+	</div>
+</body>
+</html>
+    
